@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>JJstore – Track Your Package</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#4d148c;--orange:#ff6200;--oh:#e55800;
+  --white:#fff;--lg:#f4f4f4;--mg:#d0d0d0;
+  --dg:#333;--tg:#555;--border:#e0e0e0;
+  --green:#27ae60;--red:#e74c3c;
+}
+body{font-family:Arial,sans-serif;color:var(--dg);background:var(--white);font-size:14px;line-height:1.5}
+.top-bar{background:var(--purple);padding:8px 24px;display:flex;justify-content:flex-end;gap:16px}
+.top-bar a{color:#fff;font-size:12px;text-decoration:none;opacity:.9}
+nav{background:#fff;border-bottom:3px solid var(--orange);display:flex;align-items:center;padding:0 24px;height:64px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.logo{display:flex;align-items:center;text-decoration:none;margin-right:32px;flex-shrink:0}
+.logo-jj{background:var(--purple);color:#fff;font-size:22px;font-weight:900;letter-spacing:-1px;padding:4px 10px;font-style:italic}
+.logo-store{background:var(--orange);color:#fff;font-size:22px;font-weight:900;letter-spacing:-1px;padding:4px 10px;font-style:italic}
+.nav-links{display:flex;align-items:center;flex:1}
+.nav-item{height:64px;display:flex;align-items:center}
+.nav-item>a{padding:0 16px;color:var(--dg);font-size:13px;font-weight:600;text-decoration:none;height:100%;display:flex;align-items:center;border-bottom:3px solid transparent;margin-bottom:-3px}
+.nav-item>a:hover,.nav-item.active>a{color:var(--purple);border-bottom-color:var(--orange)}
+.nav-login{margin-left:auto;display:flex;align-items:center;gap:12px}
+.btn-outline{border:2px solid var(--purple);color:var(--purple);background:transparent;padding:6px 16px;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;border-radius:2px}
+.btn-outline:hover{background:var(--purple);color:#fff}
+.btn-fill{background:var(--orange);color:#fff;padding:6px 16px;font-size:12px;font-weight:700;cursor:pointer;text-decoration:none;border-radius:2px;border:none}
+.btn-fill:hover{background:var(--oh)}
+.breadcrumb{background:var(--lg);padding:8px 24px;font-size:12px;color:var(--tg)}
+.breadcrumb a{color:var(--purple);text-decoration:none}
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--purple) 0%,#2d0a5a 100%);color:#fff;position:relative;overflow:hidden;min-height:240px;display:flex;align-items:stretch}
+.hero-img{position:absolute;right:0;top:0;bottom:0;width:55%;background:url('https://images.unsplash.com/photo-1566576912321-d58ddd7a6088?w=900&q=80') center/cover no-repeat;opacity:.25}
+.hero-content{position:relative;z-index:2;padding:36px 40px 16px}
+.hero-content h1{font-size:32px;font-weight:900;margin-bottom:8px}
+.hero-content p{font-size:14px;opacity:.9}
+/* TRACK CARD */
+.track-card{background:#fff;border-radius:4px;padding:22px;box-shadow:0 4px 20px rgba(0,0,0,.25);max-width:640px;margin:0 40px 36px;position:relative;z-index:2}
+.track-card h2{font-size:15px;font-weight:700;margin-bottom:10px;color:var(--dg)}
+.track-row{display:flex}
+.track-row input{flex:1;border:2px solid var(--mg);border-right:none;padding:10px 14px;font-size:14px;outline:none;border-radius:2px 0 0 2px;transition:border-color .2s}
+.track-row input:focus{border-color:var(--purple)}
+.track-row button{background:var(--orange);color:#fff;border:none;padding:10px 24px;font-size:14px;font-weight:700;cursor:pointer;border-radius:0 2px 2px 0}
+.track-row button:hover{background:var(--oh)}
+.track-hint{font-size:11px;color:var(--tg);margin-top:6px}
+/* MESSAGES */
+.msg{display:none;padding:10px 14px;border-radius:4px;font-size:13px;margin-top:10px;font-weight:600}
+.msg.visible{display:block}
+.msg.error{background:#fdf2f2;color:var(--red);border:1px solid #f5c6cb}
+.msg.info{background:#e8f4fd;color:#1a6fa8;border:1px solid #b8daff}
+.loading{text-align:center;padding:16px;color:var(--tg);font-style:italic;display:none}
+.loading.visible{display:block}
+.spinner{display:inline-block;width:18px;height:18px;border:3px solid var(--border);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* RESULT */
+.result-box{margin-top:14px;border:1px solid var(--border);border-radius:4px;overflow:hidden;display:none}
+.result-box.visible{display:block}
+.res-header{background:var(--purple);color:#fff;padding:12px 16px;display:flex;justify-content:space-between;align-items:flex-start}
+.rh-num{font-size:15px;font-weight:700}
+.rh-date{font-size:11px;opacity:.8;margin-top:2px}
+.status-badge{padding:4px 12px;border-radius:12px;font-size:11px;font-weight:700;text-transform:uppercase;white-space:nowrap;margin-left:12px;flex-shrink:0}
+.res-body{padding:16px}
+/* PROGRESS */
+.progress-wrap{margin:8px 0 20px}
+.progress-label{font-size:11px;text-align:center;color:var(--tg);margin-bottom:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.progress-bar{display:flex;align-items:flex-start}
+.pb-step{display:flex;flex-direction:column;align-items:center;flex:1}
+.pb-dot{width:18px;height:18px;border-radius:50%;background:var(--mg);border:3px solid var(--mg);z-index:1}
+.pb-dot.done{background:var(--purple);border-color:var(--purple)}
+.pb-dot.current{background:var(--orange);border-color:var(--orange);box-shadow:0 0 0 3px rgba(255,98,0,.25)}
+.pb-line{flex:1;height:3px;background:var(--mg);margin-top:7px}
+.pb-line.done{background:var(--purple)}
+.pb-lbl{font-size:9px;color:var(--tg);margin-top:4px;text-align:center;line-height:1.2;font-weight:600}
+.pb-lbl.active{color:var(--purple)}
+/* PEOPLE */
+.people-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.person-card{background:var(--lg);border-radius:4px;padding:12px}
+.pc-role{font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--tg);margin-bottom:5px;font-weight:700}
+.pc-name{font-size:14px;font-weight:700;color:var(--purple)}
+.pc-detail{font-size:12px;color:var(--dg);margin-top:1px}
+/* INFO */
+.info-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
+.info-item label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.5px;color:var(--tg);margin-bottom:2px}
+.info-item span{font-size:13px;font-weight:600;color:var(--dg)}
+/* PAYMENT BOX */
+.payment-box{background:#fff8f0;border:1px solid #ffd6b0;border-radius:4px;padding:14px;margin-bottom:14px}
+.payment-box h4{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);font-weight:700;margin-bottom:10px}
+.pay-pills{display:flex;gap:8px;margin-bottom:10px}
+.pay-pill{flex:1;text-align:center;border-radius:4px;padding:8px 4px}
+.pay-pill .ppl{font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.pay-pill .ppv{font-size:15px;font-weight:900}
+.pay-pill.purple{background:#f3eef9;color:var(--purple)}
+.pay-pill.green{background:#eafaf1;color:var(--green)}
+.pay-pill.red{background:#fdf2f2;color:var(--red)}
+.pay-pill.gray{background:#f4f4f4;color:#888}
+.pay-rows .pr{display:flex;justify-content:space-between;padding:5px 0;font-size:13px;border-bottom:1px solid #ffe8cc}
+.pay-rows .pr:last-child{border:none;font-weight:700}
+.pay-rows .pr.green{color:var(--green)}
+.pay-rows .pr.red{color:var(--red);font-weight:700}
+/* USA WARNING */
+.usa-warning{background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:#856404}
+.usa-warning strong{display:block;margin-bottom:4px;font-size:14px}
+/* PAY BUTTON */
+.btn-pay{display:block;width:100%;background:var(--orange);color:#fff;border:none;padding:13px;font-size:15px;font-weight:700;cursor:pointer;border-radius:4px;margin-top:12px;letter-spacing:.3px}
+.btn-pay:hover{background:var(--oh)}
+/* TIMELINE */
+.timeline h3{font-size:11px;font-weight:700;text-transform:uppercase;color:var(--purple);margin-bottom:10px;letter-spacing:.5px}
+.tl-item{display:flex;gap:12px;padding-bottom:12px;position:relative}
+.tl-item::before{content:'';position:absolute;left:7px;top:18px;bottom:0;width:2px;background:var(--border)}
+.tl-item:last-child::before{display:none}
+.tl-dot{width:16px;height:16px;border-radius:50%;background:var(--mg);border:2px solid var(--mg);flex-shrink:0;margin-top:2px;z-index:1}
+.tl-dot.active{background:var(--orange);border-color:var(--orange)}
+.tl-event{font-size:13px;font-weight:600;color:var(--dg)}
+.tl-loc{font-size:11px;color:var(--tg)}
+.tl-time{font-size:11px;color:var(--tg)}
+/* MENU */
+.menu-list{border-top:1px solid var(--border);margin-top:14px}
+.menu-item{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--border);font-size:14px;color:var(--dg);cursor:pointer}
+.menu-item:hover{color:var(--purple)}
+.mi-arrow{color:var(--mg);font-size:18px}
+.toggle-sw{width:44px;height:24px;background:var(--green);border-radius:12px;position:relative;flex-shrink:0}
+.toggle-sw::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;right:3px}
+/* MAIN */
+.main{padding:36px 40px}
+.section-div{border:none;border-top:1px solid var(--border);margin:28px 0}
+.feat h2{font-size:19px;font-weight:700;color:var(--purple);margin-bottom:8px}
+.feat p{color:var(--tg);line-height:1.7;margin-bottom:14px;font-size:13px}
+.blist{list-style:none;padding:0}
+.blist li{padding:4px 0 4px 20px;position:relative;color:var(--tg);font-size:13px}
+.blist li::before{content:'✔';position:absolute;left:0;color:var(--orange);font-size:11px;top:5px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:36px}
+/* FOOTER */
+footer{background:#333;color:#ccc;padding:28px 40px;font-size:12px}
+.fg{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:20px}
+.fc h4{color:#fff;font-size:12px;margin-bottom:10px;font-weight:700}
+.fc a{display:block;color:#aaa;text-decoration:none;margin-bottom:5px;font-size:11px}
+.fc a:hover{color:var(--orange)}
+.fb{border-top:1px solid #555;padding-top:14px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.fb a{color:#aaa;text-decoration:none;margin-left:14px}
+@media(max-width:680px){
+  .two-col,.people-row,.info-grid{grid-template-columns:1fr}
+  .hero-content,.track-card{padding-left:16px;padding-right:16px}
+  .track-card{margin:0 12px 28px}
+  .main{padding:24px 16px}
+  .fg{grid-template-columns:1fr 1fr}
+  nav{padding:0 12px}
+  .nav-links{display:none}
+  .pay-pills{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a href="#">Customer Support</a>
+  <a href="#">Nigeria (EN)</a>
+</div>
+
+<nav>
+  <a href="#" class="logo"><span class="logo-jj">JJ</span><span class="logo-store">store</span></a>
+  <div class="nav-links">
+    <div class="nav-item"><a href="#">Shipping</a></div>
+    <div class="nav-item active"><a href="#">Tracking</a></div>
+    <div class="nav-item"><a href="#">Support</a></div>
+  </div>
+  <div class="nav-login">
+    <a href="#" class="btn-outline">CONTACT US</a>
+  </div>
+</nav>
+
+<div class="breadcrumb"><a href="#">Home</a> › Tracking</div>
+
+<div class="hero">
+  <div class="hero-img"></div>
+  <div style="display:flex;flex-direction:column;width:100%">
+    <div class="hero-content">
+      <h1>Track Your Shipment</h1>
+      <p>Real-time updates on every package — know exactly where your delivery is at all times.</p>
+    </div>
+    <div class="track-card">
+      <h2>Enter Your Tracking Number</h2>
+      <p style="font-size:12px;color:#666;margin-bottom:10px">Enter the tracking number provided by your sender.</p>
+      <div class="track-row">
+        <input type="text" id="trackInput" placeholder="e.g. JJ1234567890" maxlength="40"/>
+        <button onclick="doTrack()">Track</button>
+      </div>
+      <div class="track-hint">Tracking number is found on your shipment receipt or confirmation email.</div>
+      <div class="msg error" id="errMsg"></div>
+      <div class="loading" id="loadingBox"><span class="spinner"></span>Looking up your shipment…</div>
+
+```
+  <div class="result-box" id="resultBox">
+    <div class="res-header">
+      <div>
+        <div class="rh-num" id="resNum"></div>
+        <div class="rh-date" id="resDate"></div>
+      </div>
+      <div class="status-badge" id="resBadge"></div>
+    </div>
+    <div class="res-body">
+      <div class="progress-wrap">
+        <div class="progress-label" id="progressLabel"></div>
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+      <div class="people-row" id="peopleRow"></div>
+      <div class="info-grid" id="infoGrid"></div>
+      <!-- USA only -->
+      <div id="usaSection" style="display:none">
+        <div class="usa-warning" id="usaWarning"></div>
+        <div class="payment-box" id="paymentBox"></div>
+      </div>
+      <!-- Non-USA info -->
+      <div id="nonUsaSection" style="display:none">
+        <div class="msg info" id="nonUsaMsg" style="display:block"></div>
+      </div>
+      <div class="timeline" style="margin-top:14px">
+        <h3>Shipment Activity</h3>
+        <div id="timelineItems"></div>
+      </div>
+      <div class="menu-list">
+        <div class="menu-item"><span>Notifications</span><div class="toggle-sw"></div></div>
+        <div class="menu-item"><span>Hold at Location</span><span class="mi-arrow">›</span></div>
+        <div class="menu-item"><span>Request Vacation Hold</span><span class="mi-arrow">›</span></div>
+        <div class="menu-item"><span>Delivery Instructions</span><span class="mi-arrow">›</span></div>
+        <div class="menu-item"><span>Send Tracking Detail</span><span class="mi-arrow">›</span></div>
+        <div class="menu-item"><span>Add Nickname &amp; Notes</span><span class="mi-arrow">›</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+```
+
+  </div>
+</div>
+
+<div class="main">
+  <div class="two-col">
+    <div class="feat">
+      <h2>JJstore Tracking</h2>
+      <p>Stay on top of every shipment with real-time updates. Know when your package is picked up, in transit, out for delivery, and delivered — no account needed.</p>
+      <ul class="blist">
+        <li>Live shipment status updates</li>
+        <li>Full sender & receiver details</li>
+        <li>Complete delivery event timeline</li>
+        <li>Delivery fee & payment status (USA)</li>
+        <li>Delivery preferences & notifications</li>
+      </ul>
+    </div>
+    <div class="feat">
+      <h2>JJstore Mobile</h2>
+      <p>Track your deliveries anywhere, anytime. Our mobile experience gives you all the power of JJstore Tracking right in your pocket.</p>
+      <ul class="blist">
+        <li>Track from anywhere at any time</li>
+        <li>One-tap package updates</li>
+        <li>Automatic delivery alerts</li>
+        <li>Barcode scan to track</li>
+      </ul>
+      <div style="display:flex;gap:10px;margin-top:14px">
+        <a href="#" style="display:inline-flex;align-items:center;gap:6px;background:#000;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600">🍎 App Store</a>
+        <a href="#" style="display:inline-flex;align-items:center;gap:6px;background:#000;color:#fff;padding:8px 14px;border-radius:6px;text-decoration:none;font-size:12px;font-weight:600">▶ Google Play</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="fg">
+    <div class="fc"><h4>Our Company</h4><a href="#">About JJstore</a><a href="#">Careers</a><a href="#">Holiday Schedule</a></div>
+    <div class="fc"><h4>New Customer</h4><a href="#">Open an Account</a><a href="#">New Customer Center</a></div>
+    <div class="fc"><h4>Customer Support</h4><a href="#">Contact JJstore</a><a href="#">FAQs</a><a href="#">Claims</a></div>
+    <div class="fc"><h4>More</h4><a href="#">Locations</a><a href="#">Rates & Surcharges</a></div>
+  </div>
+  <div class="fb"><span>© JJstore 1995–2026</span><div><a href="#">Terms of Use</a><a href="#">Privacy</a></div></div>
+</footer>
+
+<!-- Firebase + Flutterwave -->
+
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBYvRn9Dlwhz2Hggg-mQRYctI_iSPofrJ0",
+  authDomain: "jjstore-51a16.firebaseapp.com",
+  projectId: "jjstore-51a16",
+  storageBucket: "jjstore-51a16.firebasestorage.app",
+  messagingSenderId: "159821464997",
+  appId: "1:159821464997:web:47f0e45f839cb27c5c944c"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const FLW_PUBLIC_KEY = 'FLWPUBK-d1231ee5582659ed92eca52b827332f8-X';
+
+// Detect if user is in USA via IP geolocation
+async function getUserCountry() {
+  try {
+    const res = await fetch('https://ipapi.co/json/');
+    const data = await res.json();
+    return data.country_code || '';
+  } catch(e) {
+    return '';
+  }
+}
+
+async function doTrack() {
+  const input = document.getElementById('trackInput').value.trim().toUpperCase();
+  const errMsg = document.getElementById('errMsg');
+  const loadingBox = document.getElementById('loadingBox');
+  const resultBox = document.getElementById('resultBox');
+
+  errMsg.classList.remove('visible');
+  errMsg.textContent = '';
+  resultBox.classList.remove('visible');
+
+  if (!input) {
+    errMsg.textContent = '⚠ Please enter a tracking number.';
+    errMsg.classList.add('visible');
+    return;
+  }
+
+  loadingBox.classList.add('visible');
+
+  try {
+    const [snap, countryCode] = await Promise.all([
+      getDoc(doc(db, 'shipments', input)),
+      getUserCountry()
+    ]);
+
+    loadingBox.classList.remove('visible');
+
+    if (!snap.exists()) {
+      errMsg.textContent = '⚠ Tracking number not found. Please check and try again, or contact your sender.';
+      errMsg.classList.add('visible');
+      return;
+    }
+
+    const s = snap.data();
+    const isUSA = countryCode === 'US';
+    renderResult(s, input, isUSA, countryCode);
+
+  } catch(e) {
+    loadingBox.classList.remove('visible');
+    errMsg.textContent = '⚠ Could not retrieve shipment. Please check your connection and try again.';
+    errMsg.classList.add('visible');
+    console.error(e);
+  }
+}
+
+function renderResult(s, trackNum, isUSA, countryCode) {
+  document.getElementById('resNum').textContent = trackNum;
+  document.getElementById('resDate').textContent = 'Last updated: ' + (s.updatedAt || 'N/A');
+
+  const badge = document.getElementById('resBadge');
+  badge.textContent = s.status;
+  badge.style.background = s.status === 'Delivered' ? '#27ae60' : s.status === 'Shipment Exception' ? '#e74c3c' : '#ff6200';
+
+  // Progress bar
+  const stages = ['Picked Up','In Transit','At Hub','Out for Delivery','Delivered'];
+  const stageIdx = {'Pending Pickup':0,'In Transit':1,'At Destination Hub':2,'Out for Delivery':3,'Delivered':4,'Shipment Exception':2};
+  const cur = stageIdx[s.status] ?? 1;
+  let pbHTML = '';
+  stages.forEach((st, i) => {
+    const done = i < cur, active = i === cur;
+    if(i>0) pbHTML += `<div class="pb-line ${done?'done':''}"></div>`;
+    pbHTML += `<div class="pb-step"><div class="pb-dot ${done?'done':''} ${active?'current':''}"></div><div class="pb-lbl ${(done||active)?'active':''}">${st}</div></div>`;
+  });
+  document.getElementById('progressBar').innerHTML = pbHTML;
+  document.getElementById('progressLabel').textContent = s.currentLocation ? `📍 ${s.currentLocation}` : '';
+
+  // People
+  document.getElementById('peopleRow').innerHTML = `
+    <div class="person-card">
+      <div class="pc-role">📤 Sender</div>
+      <div class="pc-name">${s.senderName||'—'}</div>
+      <div class="pc-detail">${s.senderPhone||''}</div>
+      <div class="pc-detail">${s.senderAddress||'—'}</div>
+    </div>
+    <div class="person-card">
+      <div class="pc-role">📬 Receiver</div>
+      <div class="pc-name">${s.receiverName||'—'}</div>
+      <div class="pc-detail">${s.receiverPhone||''}</div>
+      <div class="pc-detail">${s.receiverAddress||'—'}</div>
+    </div>`;
+
+  // Info
+  const delDate = s.scheduledDelivery ? new Date(s.scheduledDelivery).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'}) : 'TBD';
+  document.getElementById('infoGrid').innerHTML = `
+    <div class="info-item"><label>Scheduled Delivery</label><span>${delDate}</span></div>
+    <div class="info-item"><label>Service</label><span>${s.service||'—'}</span></div>
+    <div class="info-item"><label>Current Location</label><span>${s.currentLocation||'—'}</span></div>
+    <div class="info-item"><label>Route</label><span style="font-size:11px">${s.senderAddress||''} → ${s.receiverAddress||''}</span></div>
+    <div class="info-item"><label>Weight</label><span>${s.weight||'—'} kg</span></div>
+    <div class="info-item"><label>Pieces</label><span>${s.pieces||'1'}</span></div>
+    ${s.description?`<div class="info-item"><label>Description</label><span>${s.description}</span></div>`:''}`;
+
+  const total = parseFloat(s.totalFee||0);
+  const paid = parseFloat(s.amountPaid||0);
+  const balance = total - paid;
+  const cur2 = s.currency || 'USD';
+  const fmt = n => n.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+
+  if (isUSA) {
+    // Show payment section for USA users
+    document.getElementById('usaSection').style.display = 'block';
+    document.getElementById('nonUsaSection').style.display = 'none';
+
+    const warnEl = document.getElementById('usaWarning');
+    if (balance > 0 && s.status !== 'Delivered') {
+      warnEl.innerHTML = `<strong>⚠️ Payment Required Before Delivery</strong>
+        Your package has an outstanding balance of <strong>${cur2} ${fmt(balance)}</strong> that must be paid before your delivery can be completed.
+        Please complete your payment below to avoid delays.`;
+    } else if (s.status === 'Delivered') {
+      warnEl.innerHTML = `<strong>✅ Package Delivered</strong>Your package has been delivered successfully. Thank you for choosing JJstore!`;
+      warnEl.style.background = '#eafaf1';
+      warnEl.style.border = '1px solid #27ae60';
+      warnEl.style.color = '#1a5e35';
+    } else {
+      warnEl.innerHTML = `<strong>✅ Payment Complete</strong>Your delivery fee has been fully paid. Your package is on its way!`;
+      warnEl.style.background = '#eafaf1';
+      warnEl.style.border = '1px solid #27ae60';
+      warnEl.style.color = '#1a5e35';
+    }
+
+    document.getElementById('paymentBox').innerHTML = `
+      <h4>💰 Delivery Payment</h4>
+      <div class="pay-pills">
+        <div class="pay-pill purple"><div class="ppl">Total Fee</div><div class="ppv">${cur2} ${fmt(total)}</div></div>
+        <div class="pay-pill green"><div class="ppl">Amount Paid</div><div class="ppv">${cur2} ${fmt(paid)}</div></div>
+        <div class="pay-pill ${balance>0?'red':'green'}"><div class="ppl">${balance>0?'Balance Due':'Fully Paid'}</div><div class="ppv">${cur2} ${fmt(Math.abs(balance))}</div></div>
+      </div>
+      <div class="pay-rows">
+        <div class="pr"><span>Delivery Fee</span><span>${cur2} ${fmt(total)}</span></div>
+        <div class="pr green"><span>✓ Paid</span><span>− ${cur2} ${fmt(paid)}</span></div>
+        <div class="pr ${balance>0?'red':''}"><span>${balance>0?'⚠ Balance Due':'✅ Fully Paid'}</span><span>${cur2} ${fmt(balance)}</span></div>
+      </div>
+      ${s.paymentNote?`<div style="margin-top:8px;font-size:12px;color:#888;font-style:italic">📝 ${s.paymentNote}</div>`:''}
+      ${balance > 0 && s.status !== 'Delivered' ? `<button class="btn-pay" onclick="window.payNow('${trackNum}', ${balance}, '${cur2}', '${s.receiverName||''}', '${s.receiverEmail||''}', '${s.receiverPhone||''}')">💳 Pay Balance — ${cur2} ${fmt(balance)}</button>` : ''}`;
+
+  } else {
+    // Non-USA: show info message, NO payment button
+    document.getElementById('usaSection').style.display = 'none';
+    document.getElementById('nonUsaSection').style.display = 'block';
+    const nonUsaEl = document.getElementById('nonUsaMsg');
+    nonUsaEl.style.display = 'block';
+    nonUsaEl.innerHTML = `📦 <strong>Shipment found.</strong> Your package is currently <strong>${s.status}</strong>${s.currentLocation ? ` — <strong>${s.currentLocation}</strong>` : ''}. For payment or delivery enquiries, please contact JJstore support directly.`;
+  }
+
+  // Timeline
+  const events = s.events || [];
+  document.getElementById('timelineItems').innerHTML = events.length
+    ? events.map((ev, i) => `
+        <div class="tl-item">
+          <div class="tl-dot ${i===0?'active':''}"></div>
+          <div>
+            <div class="tl-event">${ev.event||''}</div>
+            <div class="tl-loc">${ev.location||''}</div>
+            <div class="tl-time">${ev.time||''}</div>
+          </div>
+        </div>`).join('')
+    : '<div style="color:#aaa;font-size:13px;padding:8px 0">No tracking events yet.</div>';
+
+  document.getElementById('resultBox').classList.add('visible');
+  document.getElementById('resultBox').scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+// Flutterwave payment
+window.payNow = function(trackNum, amount, currency, name, email, phone) {
+  FlutterwaveCheckout({
+    public_key: FLW_PUBLIC_KEY,
+    tx_ref: 'JJ-' + trackNum + '-' + Date.now(),
+    amount: amount,
+    currency: currency,
+    payment_options: 'card,ussd,banktransfer',
+    customer: {
+      email: email || 'customer@jjstore.com',
+      phone_number: phone || '',
+      name: name || 'JJstore Customer',
+    },
+    customizations: {
+      title: 'JJstore Delivery Payment',
+      description: 'Balance payment for shipment ' + trackNum,
+      logo: '',
+    },
+    callback: function(data) {
+      if (data.status === 'successful') {
+        alert('✅ Payment successful! Your delivery will be completed shortly. Transaction ID: ' + data.transaction_id);
+        document.querySelector('.btn-pay') && (document.querySelector('.btn-pay').textContent = '✅ Payment Received — Thank You!');
+        document.querySelector('.btn-pay') && (document.querySelector('.btn-pay').disabled = true);
+        document.querySelector('.btn-pay') && (document.querySelector('.btn-pay').style.background = '#27ae60');
+      } else {
+        alert('⚠ Payment was not completed. Please try again.');
+      }
+    },
+    onclose: function() {}
+  });
+};
+
+window.doTrack = doTrack;
+document.getElementById('trackInput').addEventListener('keydown', e => { if(e.key==='Enter') doTrack(); });
+</script>
+
+</body>
+</html>
