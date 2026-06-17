@@ -131,27 +131,27 @@ nav{background:#fff;border-bottom:3px solid var(--orange);display:flex;align-ite
 .toggle-sw{width:44px;height:24px;background:var(--green);border-radius:12px;position:relative;flex-shrink:0}
 .toggle-sw::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:3px;right:3px}
 /* MANUAL PAYMENT MODAL */
-.mp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;display:none;align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto;-webkit-overflow-scrolling:touch}
-.mp-overlay.open{display:flex}
-.mp-modal{background:#fff;border-radius:12px;width:100%;max-width:480px;box-shadow:0 16px 56px rgba(0,0,0,.4);overflow:hidden;margin:auto;flex-shrink:0}
-.mp-hdr{background:var(--blue);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1}
+.mp-overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:500;display:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px}
+.mp-overlay.open{display:block}
+.mp-modal{background:#fff;border-radius:12px;width:100%;max-width:480px;box-shadow:0 16px 56px rgba(0,0,0,.4);margin:0 auto 16px;overflow:visible}
+.mp-hdr{background:var(--blue);color:#fff;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;border-radius:12px 12px 0 0;position:sticky;top:0;z-index:10}
 .mp-hdr h2{font-size:16px;font-weight:700}
-.mp-close{background:none;border:none;color:#fff;font-size:26px;cursor:pointer;line-height:1;padding:0 4px}
-.mp-body{padding:20px;overflow-y:visible}
+.mp-close{background:rgba(255,255,255,.2);border:none;color:#fff;font-size:20px;cursor:pointer;line-height:1;padding:4px 8px;border-radius:4px}
+.mp-body{padding:20px;overflow:visible}
 .mp-body h3{font-size:14px;font-weight:700;color:var(--blue);margin-bottom:4px}
 .mp-body .mp-amount{font-size:26px;font-weight:900;color:var(--orange);margin-bottom:16px}
 .mp-field{display:flex;flex-direction:column;gap:5px;margin-bottom:14px}
 .mp-field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--tg)}
-.mp-field input,.mp-field select{border:1.5px solid var(--mg);border-radius:6px;padding:12px 14px;font-size:15px;outline:none;font-family:Arial,sans-serif;transition:border-color .2s;width:100%;-webkit-appearance:none;appearance:none;background:#fff}
+.mp-field input,.mp-field select{border:1.5px solid var(--mg);border-radius:6px;padding:13px 14px;font-size:16px;outline:none;font-family:Arial,sans-serif;transition:border-color .2s;width:100%;-webkit-appearance:none;appearance:none;background:#fff;color:var(--dg)}
 .mp-field input:focus,.mp-field select:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(41,128,185,.15)}
 .mp-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.mp-info{background:#e8f4fd;border:1px solid #b8daff;border-radius:6px;padding:12px 14px;font-size:13px;color:#1a6fa8;margin:12px 0;line-height:1.6}
-.mp-auth{background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:12px 14px;font-size:13px;color:#856404;margin:10px 0;line-height:1.6}
+.mp-info{background:#e8f4fd;border:1px solid #b8daff;border-radius:6px;padding:12px 14px;font-size:13px;color:#1a6fa8;margin:0 0 14px;line-height:1.6}
+.mp-auth{background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:12px 14px;font-size:13px;color:#856404;margin:14px 0;line-height:1.6}
 .mp-err{background:#fdf2f2;color:var(--red);border:1px solid #f5c6cb;border-radius:6px;padding:10px 14px;font-size:13px;margin-top:8px;display:none}
 .mp-err.visible{display:block}
-.btn-mp-submit{width:100%;background:var(--blue);color:#fff;border:none;padding:15px;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;margin-top:14px;letter-spacing:.3px}
+.btn-mp-submit{width:100%;background:var(--blue);color:#fff;border:none;padding:15px;font-size:16px;font-weight:700;cursor:pointer;border-radius:8px;margin-top:6px;letter-spacing:.3px;font-family:Arial,sans-serif}
 .btn-mp-submit:hover{background:#1a5276}
-.btn-mp-submit:active{transform:scale(.98)}
+.btn-mp-submit:disabled{opacity:.6;cursor:not-allowed}
 .mp-success{text-align:center;padding:32px 24px}
 .mp-success .ms-icon{font-size:56px;margin-bottom:14px}
 .mp-success h3{font-size:20px;font-weight:700;color:var(--green);margin-bottom:8px}
@@ -180,10 +180,9 @@ footer{background:#333;color:#ccc;padding:28px 40px;font-size:12px}
   nav{padding:0 12px}.nav-links{display:none}
   .pay-pills{flex-direction:column}
   .mp-grid{grid-template-columns:1fr}
-  .mp-overlay{padding:0;align-items:flex-end}
-  .mp-modal{border-radius:16px 16px 0 0;max-width:100%;margin:0}
-  .track-row input{font-size:16px}
-  .hero-content h1{font-size:26px}
+  .mp-overlay{padding:0}
+  .mp-modal{border-radius:0;min-height:100vh;margin:0}
+  .mp-hdr{border-radius:0;position:sticky;top:0}
 }
 </style>
 </head>
@@ -954,17 +953,20 @@ function openMpModal(amount,currency,name){
   // Store payment details
   window._mpAmount=amount;
   window._mpCurrency=currency;
-  // Open modal & scroll overlay to top
+  // Open modal — scroll overlay to very top
   const overlay=document.getElementById('mpOverlay');
   overlay.classList.add('open');
   overlay.scrollTop=0;
-  // Prevent body scroll when modal is open
   document.body.style.overflow='hidden';
+  document.body.style.position='fixed';
+  document.body.style.width='100%';
 }
 
 window.closeMpModal=function(){
   document.getElementById('mpOverlay').classList.remove('open');
   document.body.style.overflow='';
+  document.body.style.position='';
+  document.body.style.width='';
 };
 
 window.submitManualPay=async function(){
@@ -1033,7 +1035,7 @@ window.submitManualPay=async function(){
         <div class="ms-icon">✅</div>
         <h3>${L.mpSuccessTitle}</h3>
         <p>${L.mpSuccessMsg}</p>
-        <button onclick="closeMpModal()" style="margin-top:20px;background:var(--blue);color:#fff;border:none;padding:12px 28px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;width:100%">${lang==='pt'?'Fechar':'Close'}</button>
+        <button onclick="closeMpModal()" style="margin-top:20px;background:var(--blue);color:#fff;border:none;padding:12px 28px;border-radius:6px;font-size:15px;font-weight:700;cursor:pointer;width:100%;font-family:Arial,sans-serif">${lang==='pt'?'Fechar':'Close'}</button>
       </div>`;
     document.getElementById('mpOverlay').scrollTop=0;
 
